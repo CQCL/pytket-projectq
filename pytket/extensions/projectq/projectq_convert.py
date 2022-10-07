@@ -15,9 +15,10 @@
 """Methods to allow conversion between ProjectQ and tket data types
 """
 
+from typing import Any, Iterable
+
 import numpy as np
 
-from typing import Any, Iterable
 from projectq import ops as pqo  # type: ignore
 from projectq.cengines import BasicEngine, LastEngineException  # type: ignore
 from projectq import MainEngine
