@@ -10,7 +10,7 @@ on:
 jobs:
   docs:
     name: build docs
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.9
@@ -20,8 +20,7 @@ jobs:
     - name: Upgrade pip and install wheel
       run: pip install --upgrade pip wheel
     - name: Install pytket projectq
-      run: |        
-        pip install .
+      run: pip install .
     - name: Install docs dependencies
       run: |
         pip install -r .github/workflows/docs/requirements.txt
