@@ -1,6 +1,11 @@
 Changelog
 ~~~~~~~~~
 
+0.26.0 (unreleased)
+-------------------
+
+* Updated projectq version requirement to 0.8.
+
 0.25.0 (October 2022)
 ---------------------
 
