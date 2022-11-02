@@ -1,9 +1,10 @@
 Changelog
 ~~~~~~~~~
 
-0.26.0 (unreleased)
--------------------
+0.26.0 (November 2022)
+----------------------
 
+* Updated pytket version requirement to 1.8.
 * Updated projectq version requirement to 0.8.
 
 0.25.0 (October 2022)
