@@ -1,4 +1,4 @@
-# Copyright 2019-2022 Cambridge Quantum Computing
+# Copyright 2019-2023 Cambridge Quantum Computing
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -189,7 +189,7 @@ class ProjectQBackend(Backend):
             qureg = eng.allocate_qureg(circuit.n_qubits)
             tk_to_projectq(eng, qureg, circuit, True)
             eng.flush()
-            state = np.array(
+            state = np.array(  # type: ignore
                 eng.backend.cheat()[1], dtype=complex
             )  # `cheat()` returns tuple:(a dictionary of qubit indices, statevector)
             handle = ResultHandle(str(uuid4()))
