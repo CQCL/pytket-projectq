@@ -189,7 +189,7 @@ class ProjectQBackend(Backend):
             qureg = eng.allocate_qureg(circuit.n_qubits)
             tk_to_projectq(eng, qureg, circuit, True)
             eng.flush()
-            state = np.array(
+            state = np.array(  # type: ignore
                 eng.backend.cheat()[1], dtype=complex
             )  # `cheat()` returns tuple:(a dictionary of qubit indices, statevector)
             handle = ResultHandle(str(uuid4()))
