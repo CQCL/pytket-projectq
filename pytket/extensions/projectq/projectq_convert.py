@@ -28,7 +28,7 @@ from projectq.types._qubit import Qureg  # type: ignore
 from pytket.circuit import OpType, Op, Circuit, Command, Bit  # type: ignore
 from pytket.transform import Transform  # type: ignore
 from pytket.passes import RebaseCustom  # type: ignore
-from pytket._tket.circuit._library import _CX, _TK1_to_RzRx  # type: ignore
+from pytket.circuit_library import _CX, _TK1_to_RzRx  # type: ignore
 
 _pq_to_tk_singleqs = {
     pqo.XGate: OpType.X,
