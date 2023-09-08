@@ -28,11 +28,11 @@ from logging import warning
 
 import numpy as np
 import projectq  # type: ignore
-from projectq import MainEngine  # type: ignore
+from projectq import MainEngine
 from projectq.backends import Simulator  # type: ignore
 from projectq.cengines import ForwarderEngine  # type: ignore
-from pytket.circuit import Circuit, OpType  # type: ignore
-from pytket.circuit import Qubit  # type: ignore
+from pytket.circuit import Circuit, OpType
+from pytket.circuit import Qubit
 from pytket.backends import (
     Backend,
     CircuitNotRunError,
@@ -43,7 +43,7 @@ from pytket.backends import (
 from pytket.backends.backendinfo import BackendInfo
 from pytket.backends.resulthandle import _ResultIdTuple
 from pytket.backends.backendresult import BackendResult
-from pytket.passes import (  # type: ignore
+from pytket.passes import (
     BasePass,
     SequencePass,
     SynthesiseTket,
@@ -51,8 +51,8 @@ from pytket.passes import (  # type: ignore
     DecomposeBoxes,
     FlattenRegisters,
 )
-from pytket.pauli import QubitPauliString  # type: ignore
-from pytket.predicates import (  # type: ignore
+from pytket.pauli import QubitPauliString
+from pytket.predicates import (
     NoSymbolsPredicate,
     NoMidMeasurePredicate,
     GateSetPredicate,
@@ -61,9 +61,9 @@ from pytket.predicates import (  # type: ignore
     DefaultRegisterPredicate,
     Predicate,
 )
-from pytket.architecture import Architecture  # type: ignore
-from pytket.extensions.projectq.projectq_convert import tk_to_projectq, _REBASE  # type: ignore
-from pytket.extensions.projectq._metadata import __extension_version__  # type: ignore
+from pytket.architecture import Architecture
+from pytket.extensions.projectq.projectq_convert import tk_to_projectq, _REBASE
+from pytket.extensions.projectq._metadata import __extension_version__
 from pytket.utils.operators import QubitPauliOperator
 from pytket.utils.results import KwargTypes
 
@@ -189,7 +189,7 @@ class ProjectQBackend(Backend):
             qureg = eng.allocate_qureg(circuit.n_qubits)
             tk_to_projectq(eng, qureg, circuit, True)
             eng.flush()
-            state = np.array(  # type: ignore
+            state = np.array(
                 eng.backend.cheat()[1], dtype=complex
             )  # `cheat()` returns tuple:(a dictionary of qubit indices, statevector)
             handle = ResultHandle(str(uuid4()))
@@ -224,7 +224,7 @@ class ProjectQBackend(Backend):
     def _expectation_value(
         self,
         circuit: Circuit,
-        hamiltonian: projectq.ops.QubitOperator,  # type: ignore
+        hamiltonian: projectq.ops.QubitOperator,
         valid_check: bool = True,
     ) -> complex:
         if valid_check and not self.valid_circuit(circuit):
@@ -262,7 +262,7 @@ class ProjectQBackend(Backend):
         """
         pauli_tuple = tuple((_default_q_index(q), p.name) for q, p in pauli.map.items())
         return self._expectation_value(
-            state_circuit, projectq.ops.QubitOperator(pauli_tuple), valid_check  # type: ignore
+            state_circuit, projectq.ops.QubitOperator(pauli_tuple), valid_check
         )
 
     def get_operator_expectation_value(
@@ -285,14 +285,14 @@ class ProjectQBackend(Backend):
         :return: :math:`\\left<\\psi | H | \\psi \\right>`
         :rtype: complex
         """
-        ham = projectq.ops.QubitOperator()  # type: ignore
+        ham = projectq.ops.QubitOperator()
         for term, coeff in operator._dict.items():
             if type(coeff) is complex and abs(coeff.imag) > 1e-12:
                 raise ValueError(
                     "Operator is not Hermitian and cannot be converted to "
                     "`projectq.ops.QubitOperator`."
                 )
-            ham += projectq.ops.QubitOperator(  # type: ignore
+            ham += projectq.ops.QubitOperator(
                 tuple((_default_q_index(q), p.name) for q, p in term.map.items()),
                 float(coeff),
             )

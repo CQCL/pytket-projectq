@@ -25,11 +25,11 @@ import pytest
 from pytket.backends.backend import ResultHandleTypeError
 from pytket.backends.backend_exceptions import CircuitNotRunError
 from pytket.backends.status import StatusEnum
-from pytket.extensions.projectq import ProjectQBackend  # type: ignore
+from pytket.extensions.projectq import ProjectQBackend
 from pytket.backends.resulthandle import ResultHandle
-from pytket.circuit import BasisOrder, Circuit, Qubit, OpType  # type: ignore
-from pytket.passes import CliffordSimp  # type: ignore
-from pytket.pauli import Pauli, QubitPauliString  # type: ignore
+from pytket.circuit import BasisOrder, Circuit, Qubit, OpType
+from pytket.passes import CliffordSimp
+from pytket.pauli import Pauli, QubitPauliString
 from pytket.utils.expectations import (
     get_operator_expectation_value,
     get_pauli_expectation_value,
@@ -182,7 +182,7 @@ def test_shots_bits_edgecases(n_shots, n_bits) -> None:
     h = projectq_backend.process_circuit(c, n_shots)
     res = projectq_backend.get_result(h)
 
-    correct_shots = np.zeros((n_shots, n_bits), dtype=int)  # type: ignore
+    correct_shots = np.zeros((n_shots, n_bits), dtype=int)
     correct_shape = (n_shots, n_bits)
     correct_counts = Counter({(0,) * n_bits: n_shots})
     # BackendResult
