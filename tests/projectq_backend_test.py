@@ -18,6 +18,7 @@
 import math
 import warnings
 from collections import Counter
+import platform
 
 from hypothesis import given, strategies
 import numpy as np
@@ -170,6 +171,10 @@ def test_resulthandle() -> None:
     ) + "has not been run by this backend instance." in str(errorinfocirc.value)
 
 
+@pytest.mark.skipif(
+    platform.python_version().split(".")[1] == "11",
+    reason="Strange AST recursion error.",
+)
 @given(
     n_shots=strategies.integers(min_value=1, max_value=10),  # type: ignore
     n_bits=strategies.integers(min_value=0, max_value=10),
