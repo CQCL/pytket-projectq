@@ -25,10 +25,10 @@ from projectq import MainEngine
 from projectq.meta import get_control_count  # type: ignore
 from projectq.ops._command import Command as ProjectQCommand, apply_command  # type: ignore
 from projectq.types._qubit import Qureg  # type: ignore
-from pytket.circuit import OpType, Op, Circuit, Command, Bit  # type: ignore
-from pytket.transform import Transform  # type: ignore
-from pytket.passes import RebaseCustom  # type: ignore
-from pytket._tket.circuit._library import _CX, _TK1_to_RzRx  # type: ignore
+from pytket.circuit import OpType, Op, Circuit, Command, Bit
+from pytket.transform import Transform
+from pytket.passes import RebaseCustom
+from pytket.circuit_library import _CX, _TK1_to_RzRx
 
 _pq_to_tk_singleqs = {
     pqo.XGate: OpType.X,
@@ -107,7 +107,7 @@ def _get_pq_command_from_tk_command(
         if len(params) != 1:
             raise Exception(f"A Rotation Gate has {len(params)} parameters")
         try:
-            gate = gatetype(params[0].evalf() * np.pi)
+            gate = gatetype(params[0].evalf() * np.pi)  # type: ignore
         except:
             gate = gatetype(params[0] * np.pi)
     elif issubclass(gatetype, pqo.BasicGate):
