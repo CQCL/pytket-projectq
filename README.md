@@ -1,12 +1,7 @@
-# Pytket Extensions
-
-This repository contains the pytket-projectq extension, using Quantinuum's
-[pytket](https://cqcl.github.io/tket/pytket/api/index.html) quantum SDK.
-
 # pytket-projectq
 
-[Pytket](https://cqcl.github.io/tket/pytket/api/index.html) is a python module for interfacing
-with tket, a quantum computing toolkit and optimisation compiler developed by Quantinuum.
+[Pytket](https://tket.quantinuum.com/api-docs/index.html) is a python module for interfacing
+with tket, a quantum computing toolkit and optimising compiler developed by Quantinuum.
 
 `pytket-projectq` is an extension to `pytket` that allows `pytket` circuits to
 be run on ProjectQ simulators, as well as conversion to the ProjectQ
@@ -17,7 +12,9 @@ representation.
 `pytket-projectq` is available for Python 3.9, 3.10 and 3.11, on Linux, MacOS
 and Windows. To install, run:
 
-```pip install pytket-projectq```
+```shell
+pip install pytket-projectq
+```
 
 This will install `pytket` if it isn't already installed, and add new classes
 and methods into the `pytket.extensions` namespace.
