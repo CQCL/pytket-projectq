@@ -116,7 +116,7 @@ class ProjectQBackend(Backend):
             type(self).__name__,
             None,
             __extension_version__,
-            Architecture([]),
+            None,
             _GATE_SET,
         )
         return backend_info
