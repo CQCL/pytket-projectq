@@ -200,5 +200,5 @@ def test_backend_info() -> None:
     projectq_backend = ProjectQBackend()
     backend_info = projectq_backend.backend_info
     assert backend_info.name == "ProjectQBackend"
-    assert len(backend_info.architecture.nodes) == 0
+    assert backend_info.architecture is None
     assert projectq_backend.characterisation == dict()
