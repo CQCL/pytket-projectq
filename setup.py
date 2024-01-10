@@ -32,7 +32,7 @@ setup(
     author_email="tket-support@cambridgequantum.com",
     python_requires=">=3.9",
     project_urls={
-        "Documentation": "https://tket.quantinuum.com/extensions/pytket-projectq/api/index.html",
+        "Documentation": "https://tket.quantinuum.com/extensions/pytket-projectq/index.html",
         "Source": "https://github.com/CQCL/pytket-projectq",
         "Tracker": "https://github.com/CQCL/pytket-projectq/issues",
     },
@@ -43,7 +43,7 @@ setup(
     license="Apache 2",
     packages=find_namespace_packages(include=["pytket.*"]),
     include_package_data=True,
-    install_requires=["pytket ~= 1.22", "projectq ~= 0.8.0"],
+    install_requires=["pytket ~= 1.23", "projectq ~= 0.8.0"],
     classifiers=[
         "Environment :: Console",
         "Programming Language :: Python :: 3.9",
