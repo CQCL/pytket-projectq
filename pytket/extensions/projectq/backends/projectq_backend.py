@@ -61,7 +61,6 @@ from pytket.predicates import (
     DefaultRegisterPredicate,
     Predicate,
 )
-from pytket.architecture import Architecture
 from pytket.extensions.projectq.projectq_convert import tk_to_projectq, _REBASE
 from pytket.extensions.projectq._metadata import __extension_version__
 from pytket.utils.operators import QubitPauliOperator
