@@ -7,6 +7,9 @@ with tket, a quantum computing toolkit and optimising compiler developed by Quan
 be run on ProjectQ simulators, as well as conversion to the ProjectQ
 representation.
 
+Some useful links:
+- [API Documentation](https://tket.quantinuum.com/extensions/pytket-projectq/)
+
 ## Getting started
 
 `pytket-projectq` is available for Python 3.10, 3.11 and 3.12, on Linux, MacOS
