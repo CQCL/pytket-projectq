@@ -286,7 +286,7 @@ class ProjectQBackend(Backend):
         """
         ham = projectq.ops.QubitOperator()
         for term, coeff in operator._dict.items():
-            if type(coeff) is complex and abs(coeff.imag) > 1e-12:  # type: ignore
+            if type(coeff) is complex and abs(coeff.imag) > 1e-12:
                 raise ValueError(
                     "Operator is not Hermitian and cannot be converted to "
                     "`projectq.ops.QubitOperator`."
