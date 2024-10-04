@@ -1,5 +1,12 @@
+.. currentmodule:: pytket.extensions.projectq
+
 Changelog
 ~~~~~~~~~
+
+0.37.0 (October 2024)
+---------------------
+
+* Updated pytket version requirement to 1.33.
 
 0.36.0 (unreleased)
 -------------------
