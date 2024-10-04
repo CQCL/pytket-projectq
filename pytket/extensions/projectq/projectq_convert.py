@@ -85,9 +85,7 @@ _REBASE = RebaseCustom(
 _tk_to_pq_singleqs: dict = dict(
     (item[1], item[0]) for item in _pq_to_tk_singleqs.items()
 )
-_tk_to_pq_multiqs: dict = dict(
-    (item[1], item[0]) for item in _pq_to_tk_multiqs.items()
-)
+_tk_to_pq_multiqs: dict = dict((item[1], item[0]) for item in _pq_to_tk_multiqs.items())
 
 
 def _get_pq_command_from_tk_command(

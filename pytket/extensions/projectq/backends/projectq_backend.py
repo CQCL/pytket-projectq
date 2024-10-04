@@ -19,8 +19,6 @@ from collections.abc import Sequence
 from logging import warning
 from typing import (
     Any,
-    Dict,
-    List,
     Optional,
     Union,
 )
@@ -106,7 +104,7 @@ class ProjectQBackend(Backend):
         return (str,)
 
     @property
-    def characterisation(self) -> Dict[str, Any]:
+    def characterisation(self) -> dict[str, Any]:
         return dict()
 
     @property
@@ -121,7 +119,7 @@ class ProjectQBackend(Backend):
         return backend_info
 
     @property
-    def required_predicates(self) -> List[Predicate]:
+    def required_predicates(self) -> list[Predicate]:
         return [
             NoClassicalControlPredicate(),
             NoFastFeedforwardPredicate(),
@@ -165,7 +163,7 @@ class ProjectQBackend(Backend):
         n_shots: Union[None, int, Sequence[Optional[int]]] = None,
         valid_check: bool = True,
         **kwargs: KwargTypes,
-    ) -> List[ResultHandle]:
+    ) -> list[ResultHandle]:
         """
         See :py:meth:`pytket.backends.Backend.process_circuits`.
         Supported kwargs: `seed`.
