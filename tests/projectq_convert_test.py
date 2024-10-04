@@ -13,13 +13,14 @@
 # limitations under the License.
 
 from math import isclose
-import pytest
 
+import pytest
 from projectq import MainEngine  # type: ignore
-from projectq.ops import All, Measure, H, NOT, CNOT, Rz, X  # type: ignore
 from projectq.cengines._basics import ForwarderEngine  # type: ignore
-from pytket.extensions.projectq import tketBackendEngine, tk_to_projectq, tketOptimiser
+from projectq.ops import CNOT, NOT, All, H, Measure, Rz, X  # type: ignore
+
 from pytket.circuit import Circuit, OpType
+from pytket.extensions.projectq import tk_to_projectq, tketBackendEngine, tketOptimiser
 
 eps = 1e-7
 

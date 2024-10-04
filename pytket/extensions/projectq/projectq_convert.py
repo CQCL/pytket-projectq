@@ -15,20 +15,22 @@
 """Methods to allow conversion between ProjectQ and tket data types
 """
 
-from typing import Any, Iterable
+from collections.abc import Iterable
+from typing import Any
 
 import numpy as np
 
+from projectq import MainEngine
 from projectq import ops as pqo  # type: ignore
 from projectq.cengines import BasicEngine, LastEngineException  # type: ignore
-from projectq import MainEngine
 from projectq.meta import get_control_count  # type: ignore
-from projectq.ops._command import Command as ProjectQCommand, apply_command  # type: ignore
+from projectq.ops._command import Command as ProjectQCommand  # type: ignore
+from projectq.ops._command import apply_command
 from projectq.types._qubit import Qureg  # type: ignore
-from pytket.circuit import OpType, Op, Circuit, Command, Bit
-from pytket.transform import Transform
-from pytket.passes import RebaseCustom
+from pytket.circuit import Bit, Circuit, Command, Op, OpType
 from pytket.circuit_library import CX, TK1_to_RzRx
+from pytket.passes import RebaseCustom
+from pytket.transform import Transform
 
 _pq_to_tk_singleqs = {
     pqo.XGate: OpType.X,
@@ -81,10 +83,10 @@ _REBASE = RebaseCustom(
     TK1_to_RzRx,
 )
 _tk_to_pq_singleqs: dict = dict(
-    ((item[1], item[0]) for item in _pq_to_tk_singleqs.items())
+    (item[1], item[0]) for item in _pq_to_tk_singleqs.items()
 )
 _tk_to_pq_multiqs: dict = dict(
-    ((item[1], item[0]) for item in _pq_to_tk_multiqs.items())
+    (item[1], item[0]) for item in _pq_to_tk_multiqs.items()
 )
 
 

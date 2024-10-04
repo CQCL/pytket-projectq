@@ -15,54 +15,54 @@
 """Methods to allow tket circuits to be ran on ProjectQ simulator
 """
 
+from collections.abc import Sequence
+from logging import warning
 from typing import (
     Any,
     Dict,
     List,
     Optional,
-    Sequence,
     Union,
 )
 from uuid import uuid4
-from logging import warning
 
 import numpy as np
+
 import projectq  # type: ignore
 from projectq import MainEngine
 from projectq.backends import Simulator  # type: ignore
 from projectq.cengines import ForwarderEngine  # type: ignore
-from pytket.circuit import Circuit, OpType
-from pytket.circuit import Qubit
 from pytket.backends import (
     Backend,
     CircuitNotRunError,
-    ResultHandle,
     CircuitStatus,
+    ResultHandle,
     StatusEnum,
 )
 from pytket.backends.backendinfo import BackendInfo
-from pytket.backends.resulthandle import _ResultIdTuple
 from pytket.backends.backendresult import BackendResult
+from pytket.backends.resulthandle import _ResultIdTuple
+from pytket.circuit import Circuit, OpType, Qubit
+from pytket.extensions.projectq._metadata import __extension_version__
+from pytket.extensions.projectq.projectq_convert import _REBASE, tk_to_projectq
 from pytket.passes import (
     BasePass,
-    SequencePass,
-    SynthesiseTket,
-    FullPeepholeOptimise,
     DecomposeBoxes,
     FlattenRegisters,
+    FullPeepholeOptimise,
+    SequencePass,
+    SynthesiseTket,
 )
 from pytket.pauli import QubitPauliString
 from pytket.predicates import (
-    NoSymbolsPredicate,
-    NoMidMeasurePredicate,
+    DefaultRegisterPredicate,
     GateSetPredicate,
     NoClassicalControlPredicate,
     NoFastFeedforwardPredicate,
-    DefaultRegisterPredicate,
+    NoMidMeasurePredicate,
+    NoSymbolsPredicate,
     Predicate,
 )
-from pytket.extensions.projectq.projectq_convert import tk_to_projectq, _REBASE
-from pytket.extensions.projectq._metadata import __extension_version__
 from pytket.utils.operators import QubitPauliOperator
 from pytket.utils.results import KwargTypes
 

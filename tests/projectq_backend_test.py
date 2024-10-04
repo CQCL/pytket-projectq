@@ -16,19 +16,20 @@
 # https://github.com/ProjectQ-Framework/ProjectQ/blob/develop/examples/variational_quantum_eigensolver.ipynb
 
 import math
+import platform
 import warnings
 from collections import Counter
-import platform
 
-from hypothesis import given, strategies
 import numpy as np
 import pytest
+from hypothesis import given, strategies
+
 from pytket.backends.backend import ResultHandleTypeError
 from pytket.backends.backend_exceptions import CircuitNotRunError
-from pytket.backends.status import StatusEnum
-from pytket.extensions.projectq import ProjectQBackend
 from pytket.backends.resulthandle import ResultHandle
-from pytket.circuit import BasisOrder, Circuit, Qubit, OpType
+from pytket.backends.status import StatusEnum
+from pytket.circuit import BasisOrder, Circuit, OpType, Qubit
+from pytket.extensions.projectq import ProjectQBackend
 from pytket.passes import CliffordSimp
 from pytket.pauli import Pauli, QubitPauliString
 from pytket.utils.expectations import (
@@ -166,9 +167,7 @@ def test_resulthandle() -> None:
 
     with pytest.raises(CircuitNotRunError) as errorinfocirc:
         _ = b.get_result(wronghandle)
-    assert "Circuit corresponding to {0!r} ".format(
-        wronghandle
-    ) + "has not been run by this backend instance." in str(errorinfocirc.value)
+    assert f"Circuit corresponding to {wronghandle!r} " + "has not been run by this backend instance." in str(errorinfocirc.value)
 
 
 @pytest.mark.skipif(
