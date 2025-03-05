@@ -12,8 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Methods to allow tket circuits to be ran on ProjectQ simulator
-"""
+"""Methods to allow tket circuits to be ran on ProjectQ simulator"""
 
 from typing import (
     Any,

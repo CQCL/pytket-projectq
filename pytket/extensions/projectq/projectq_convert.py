@@ -12,8 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Methods to allow conversion between ProjectQ and tket data types
-"""
+"""Methods to allow conversion between ProjectQ and tket data types"""
 
 from typing import Any, Iterable
 
