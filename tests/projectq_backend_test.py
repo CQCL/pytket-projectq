@@ -176,10 +176,10 @@ def test_resulthandle() -> None:
     reason="Strange AST recursion error.",
 )
 @given(
-    n_shots=strategies.integers(min_value=1, max_value=10),  # type: ignore
+    n_shots=strategies.integers(min_value=1, max_value=10),
     n_bits=strategies.integers(min_value=0, max_value=10),
 )
-def test_shots_bits_edgecases(n_shots, n_bits) -> None:
+def test_shots_bits_edgecases(n_shots, n_bits) -> None:  # type: ignore
     projectq_backend = ProjectQBackend()
     c = Circuit(n_bits, n_bits)
 
