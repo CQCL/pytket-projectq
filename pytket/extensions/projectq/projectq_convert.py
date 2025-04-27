@@ -14,20 +14,22 @@
 
 """Methods to allow conversion between ProjectQ and tket data types"""
 
-from typing import Any, Iterable
+from collections.abc import Iterable
+from typing import Any
 
 import numpy as np
 
+from projectq import MainEngine
 from projectq import ops as pqo  # type: ignore
 from projectq.cengines import BasicEngine, LastEngineException  # type: ignore
-from projectq import MainEngine
 from projectq.meta import get_control_count  # type: ignore
-from projectq.ops._command import Command as ProjectQCommand, apply_command  # type: ignore
+from projectq.ops._command import Command as ProjectQCommand  # type: ignore
+from projectq.ops._command import apply_command
 from projectq.types._qubit import Qureg  # type: ignore
-from pytket.circuit import OpType, Op, Circuit, Command, Bit
-from pytket.transform import Transform
-from pytket.passes import RebaseCustom
+from pytket.circuit import Bit, Circuit, Command, Op, OpType
 from pytket.circuit_library import CX, TK1_to_RzRx
+from pytket.passes import RebaseCustom
+from pytket.transform import Transform
 
 _pq_to_tk_singleqs = {
     pqo.XGate: OpType.X,
@@ -80,11 +82,9 @@ _REBASE = RebaseCustom(
     TK1_to_RzRx,
 )
 _tk_to_pq_singleqs: dict = dict(
-    ((item[1], item[0]) for item in _pq_to_tk_singleqs.items())
+    (item[1], item[0]) for item in _pq_to_tk_singleqs.items()
 )
-_tk_to_pq_multiqs: dict = dict(
-    ((item[1], item[0]) for item in _pq_to_tk_multiqs.items())
-)
+_tk_to_pq_multiqs: dict = dict((item[1], item[0]) for item in _pq_to_tk_multiqs.items())
 
 
 def _get_pq_command_from_tk_command(
@@ -107,7 +107,7 @@ def _get_pq_command_from_tk_command(
             raise Exception(f"A Rotation Gate has {len(params)} parameters")
         try:
             gate = gatetype(params[0].evalf() * np.pi)  # type: ignore
-        except:
+        except:  # noqa: E722
             gate = gatetype(params[0] * np.pi)
     elif issubclass(gatetype, pqo.BasicGate):
         gate = gatetype()
@@ -168,7 +168,7 @@ def _handle_gate(
         and len(command.qubits) == 1
     ):
         engine._translate_single_qubit_op(command)
-    elif type(command.gate) == pqo.DaggeredGate:
+    elif type(command.gate) is pqo.DaggeredGate:
         engine._translate_daggered_op(command)
     else:
         raise Exception(
@@ -183,9 +183,9 @@ def _handle_gate(
 
 def _add_daggered_op_to_circuit(cmd: ProjectQCommand, circ: Circuit) -> bool:
     undaggered_gate = cmd.gate.get_inverse()
-    if type(undaggered_gate) == pqo.TGate:
+    if type(undaggered_gate) is pqo.TGate:
         op = Op.create(OpType.Tdg)
-    elif type(undaggered_gate) == pqo.SGate:
+    elif type(undaggered_gate) is pqo.SGate:
         op = Op.create(OpType.Sdg)
     else:
         raise Exception("cannot recognise daggered op of type " + str(cmd.gate))
@@ -217,7 +217,7 @@ def _add_single_qubit_op_to_circuit(cmd: ProjectQCommand, circ: Circuit) -> bool
         if qubit_no >= circ.n_qubits:
             circ.add_blank_wires(1 + qubit_no - circ.n_qubits)
             new_qubit = True
-        if type(cmd.gate) == pqo.MeasureGate:
+        if type(cmd.gate) is pqo.MeasureGate:
             bit = Bit("c", qubit_no)
             if bit not in circ.bits:
                 circ.add_bit(bit)
@@ -243,7 +243,7 @@ def _add_multi_qubit_op_to_circuit(cmd: ProjectQCommand, circ: Circuit) -> list:
             if qubit_no >= circ.n_qubits:
                 circ.add_blank_wires(1 + qubit_no - circ.n_qubits)
                 new_qubits.append(q)
-        if type(cmd.gate) == pqo.CRz:
+        if type(cmd.gate) is pqo.CRz:
             op = Op.create(_pq_to_tk_multiqs[type(cmd.gate)], cmd.gate.angle / np.pi)
         else:
             op = Op.create(_pq_to_tk_multiqs[type(cmd.gate)])
