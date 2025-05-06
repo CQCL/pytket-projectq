@@ -26,8 +26,7 @@ from projectq.ops._command import Command as ProjectQCommand, apply_command  # t
 from projectq.types._qubit import Qureg  # type: ignore
 from pytket.circuit import OpType, Op, Circuit, Command, Bit
 from pytket.transform import Transform
-from pytket.passes import RebaseCustom
-from pytket.circuit_library import CX, TK1_to_RzRx
+from pytket.passes import AutoRebase
 
 _pq_to_tk_singleqs = {
     pqo.XGate: OpType.X,
@@ -59,7 +58,7 @@ _OTHER_KNOWN_GATES = {
 
 
 _ALLOWED_GATES = {**_pq_to_tk_singleqs, **_pq_to_tk_multiqs, **_OTHER_KNOWN_GATES}
-_REBASE = RebaseCustom(
+_REBASE = AutoRebase(
     {
         OpType.SWAP,
         OpType.CRz,
@@ -76,8 +75,6 @@ _REBASE = RebaseCustom(
         OpType.Ry,
         OpType.Rz,
     },
-    CX(),
-    TK1_to_RzRx,
 )
 _tk_to_pq_singleqs: dict = dict(
     ((item[1], item[0]) for item in _pq_to_tk_singleqs.items())
