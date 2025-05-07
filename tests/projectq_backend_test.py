@@ -209,6 +209,7 @@ def test_default_pass_serialization() -> None:
 
     for opt_level in range(3):
         default_pass = projectq_backend.default_compilation_pass(opt_level)
-        reconstructed_pass = BasePass.from_dict(default_pass.to_dict())
+        original_pass_dict = default_pass.to_dict()
+        reconstructed_pass = BasePass.from_dict(original_pass_dict)
         assert isinstance(reconstructed_pass, SequencePass)
-        assert default_pass.to_dict() == reconstructed_pass.to_dict()
+        assert original_pass_dict == reconstructed_pass.to_dict()
