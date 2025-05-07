@@ -29,7 +29,7 @@ from pytket.backends.status import StatusEnum
 from pytket.extensions.projectq import ProjectQBackend
 from pytket.backends.resulthandle import ResultHandle
 from pytket.circuit import BasisOrder, Circuit, Qubit, OpType
-from pytket.passes import CliffordSimp
+from pytket.passes import CliffordSimp, BasePass, SequencePass
 from pytket.pauli import Pauli, QubitPauliString
 from pytket.utils.expectations import (
     get_operator_expectation_value,
@@ -202,3 +202,13 @@ def test_backend_info() -> None:
     assert backend_info.name == "ProjectQBackend"
     assert backend_info.architecture is None
     assert projectq_backend.characterisation == dict()
+
+
+def test_default_pass_serialization() -> None:
+    projectq_backend = ProjectQBackend()
+
+    for opt_level in range(3):
+        default_pass = projectq_backend.default_compilation_pass(opt_level)
+        reconstructed_pass = BasePass.from_dict(default_pass.to_dict())
+        assert isinstance(reconstructed_pass, SequencePass)
+        assert default_pass.to_dict() == reconstructed_pass.to_dict()
