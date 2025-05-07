@@ -6,7 +6,7 @@ Changelog
 0.38.0 
 ------
 
-* Update pytket minimum version requirement to 2.0.1.
+* Update pytket minimum version requirement to 2.3.1.
 * Replace internal usage of :py:class:`~pytket.passes.RebaseCustom` with the serializable :py:class:`~pytket.passes.AutoRebase` pass.
 
 0.37.0 (October 2024)
