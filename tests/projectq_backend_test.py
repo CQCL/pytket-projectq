@@ -168,7 +168,7 @@ def test_resulthandle() -> None:
     with pytest.raises(CircuitNotRunError) as errorinfocirc:
         _ = b.get_result(wronghandle)
     assert (
-        f"Circuit corresponding to {wronghandle!r} "
+        f"Circuit corresponding to {wronghandle!r} "  # noqa: ISC003
         + "has not been run by this backend instance."
         in str(errorinfocirc.value)
     )
