@@ -19,8 +19,8 @@ from typing import Any
 
 import numpy as np
 
-from projectq import MainEngine
-from projectq import ops as pqo  # type: ignore
+from projectq import MainEngine  # type: ignore
+from projectq import ops as pqo
 from projectq.cengines import BasicEngine, LastEngineException  # type: ignore
 from projectq.meta import get_control_count  # type: ignore
 from projectq.ops._command import Command as ProjectQCommand  # type: ignore
