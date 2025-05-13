@@ -16,20 +16,21 @@
 # https://github.com/ProjectQ-Framework/ProjectQ/blob/develop/examples/variational_quantum_eigensolver.ipynb
 
 import math
+import platform
 import warnings
 from collections import Counter
-import platform
 
-from hypothesis import given, strategies
 import numpy as np
 import pytest
+from hypothesis import given, strategies
+
 from pytket.backends.backend import ResultHandleTypeError
 from pytket.backends.backend_exceptions import CircuitNotRunError
-from pytket.backends.status import StatusEnum
-from pytket.extensions.projectq import ProjectQBackend
 from pytket.backends.resulthandle import ResultHandle
-from pytket.circuit import BasisOrder, Circuit, Qubit, OpType
-from pytket.passes import CliffordSimp, BasePass, SequencePass
+from pytket.backends.status import StatusEnum
+from pytket.circuit import BasisOrder, Circuit, OpType, Qubit
+from pytket.extensions.projectq import ProjectQBackend
+from pytket.passes import BasePass, CliffordSimp, SequencePass
 from pytket.pauli import Pauli, QubitPauliString
 from pytket.utils.expectations import (
     get_operator_expectation_value,
@@ -166,9 +167,11 @@ def test_resulthandle() -> None:
 
     with pytest.raises(CircuitNotRunError) as errorinfocirc:
         _ = b.get_result(wronghandle)
-    assert "Circuit corresponding to {0!r} ".format(
-        wronghandle
-    ) + "has not been run by this backend instance." in str(errorinfocirc.value)
+    assert (
+        f"Circuit corresponding to {wronghandle!r} "
+        + "has not been run by this backend instance."
+        in str(errorinfocirc.value)
+    )
 
 
 @pytest.mark.skipif(
@@ -201,7 +204,7 @@ def test_backend_info() -> None:
     backend_info = projectq_backend.backend_info
     assert backend_info.name == "ProjectQBackend"
     assert backend_info.architecture is None
-    assert projectq_backend.characterisation == dict()
+    assert projectq_backend.characterisation == dict()  # noqa: C408
 
 
 def test_default_pass_serialization() -> None:

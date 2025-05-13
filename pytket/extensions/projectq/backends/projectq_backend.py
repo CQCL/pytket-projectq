@@ -14,54 +14,50 @@
 
 """Methods to allow tket circuits to be ran on ProjectQ simulator"""
 
+from collections.abc import Sequence
+from logging import warning
 from typing import (
     Any,
-    Dict,
-    List,
-    Optional,
-    Sequence,
-    Union,
 )
 from uuid import uuid4
-from logging import warning
 
 import numpy as np
+
 import projectq  # type: ignore
 from projectq import MainEngine
 from projectq.backends import Simulator  # type: ignore
 from projectq.cengines import ForwarderEngine  # type: ignore
-from pytket.circuit import Circuit, OpType
-from pytket.circuit import Qubit
 from pytket.backends import (
     Backend,
     CircuitNotRunError,
-    ResultHandle,
     CircuitStatus,
+    ResultHandle,
     StatusEnum,
 )
 from pytket.backends.backendinfo import BackendInfo
-from pytket.backends.resulthandle import _ResultIdTuple
 from pytket.backends.backendresult import BackendResult
+from pytket.backends.resulthandle import _ResultIdTuple
+from pytket.circuit import Circuit, OpType, Qubit
+from pytket.extensions.projectq._metadata import __extension_version__
+from pytket.extensions.projectq.projectq_convert import _REBASE, tk_to_projectq
 from pytket.passes import (
     BasePass,
-    SequencePass,
-    SynthesiseTket,
-    FullPeepholeOptimise,
     DecomposeBoxes,
     FlattenRegisters,
+    FullPeepholeOptimise,
+    SequencePass,
+    SynthesiseTket,
 )
 from pytket.pauli import QubitPauliString
 from pytket.predicates import (
-    NoSymbolsPredicate,
-    NoMidMeasurePredicate,
+    DefaultRegisterPredicate,
     GateSetPredicate,
     NoClassicalControlPredicate,
     NoFastFeedforwardPredicate,
-    DefaultRegisterPredicate,
+    NoMidMeasurePredicate,
+    NoSymbolsPredicate,
     Predicate,
 )
-from pytket.extensions.projectq.projectq_convert import tk_to_projectq, _REBASE
-from pytket.extensions.projectq._metadata import __extension_version__
 from pytket.utils.operators import QubitPauliOperator
 from pytket.utils.results import KwargTypes
 
@@ -105,8 +101,8 @@ class ProjectQBackend(Backend):
         return (str,)
 
     @property
-    def characterisation(self) -> Dict[str, Any]:
-        return dict()
+    def characterisation(self) -> dict[str, Any]:
+        return dict()  # noqa: C408
 
     @property
     def backend_info(self) -> BackendInfo:
@@ -117,10 +113,10 @@ class ProjectQBackend(Backend):
             None,
             _GATE_SET,
         )
-        return backend_info
+        return backend_info  # noqa: RET504
 
     @property
-    def required_predicates(self) -> List[Predicate]:
+    def required_predicates(self) -> list[Predicate]:
         return [
             NoClassicalControlPredicate(),
             NoFastFeedforwardPredicate(),
@@ -139,7 +135,7 @@ class ProjectQBackend(Backend):
             return SequencePass(
                 [DecomposeBoxes(), FlattenRegisters(), self.rebase_pass()]
             )
-        elif optimisation_level == 1:
+        if optimisation_level == 1:
             return SequencePass(
                 [
                     DecomposeBoxes(),
@@ -148,29 +144,28 @@ class ProjectQBackend(Backend):
                     self.rebase_pass(),
                 ]
             )
-        else:
-            return SequencePass(
-                [
-                    DecomposeBoxes(),
-                    FlattenRegisters(),
-                    FullPeepholeOptimise(),
-                    self.rebase_pass(),
-                ]
-            )
+        return SequencePass(
+            [
+                DecomposeBoxes(),
+                FlattenRegisters(),
+                FullPeepholeOptimise(),
+                self.rebase_pass(),
+            ]
+        )
 
     def process_circuits(
         self,
         circuits: Sequence[Circuit],
-        n_shots: Union[None, int, Sequence[Optional[int]]] = None,
+        n_shots: None | int | Sequence[int | None] = None,
         valid_check: bool = True,
         **kwargs: KwargTypes,
-    ) -> List[ResultHandle]:
+    ) -> list[ResultHandle]:
         """
         See :py:meth:`pytket.backends.Backend.process_circuits`.
         Supported kwargs: `seed`.
         """
         circuits = list(circuits)
-        n_shots_list = Backend._get_n_shots_as_list(
+        n_shots_list = Backend._get_n_shots_as_list(  # noqa: SLF001
             n_shots,
             len(circuits),
             optional=True,
@@ -180,7 +175,7 @@ class ProjectQBackend(Backend):
             self._check_all_circuits(circuits)
 
         handle_list = []
-        for circuit, n_shots_circ in zip(circuits, n_shots_list):
+        for circuit, n_shots_circ in zip(circuits, n_shots_list, strict=False):
             sim = Simulator(rnd_seed=kwargs.get("seed"))
             fwd = ForwarderEngine(sim)
             eng = MainEngine(backend=sim, engine_list=[fwd])
@@ -196,7 +191,7 @@ class ProjectQBackend(Backend):
                 coeff = np.exp(phase * np.pi * 1j)
                 state *= coeff
             except ValueError:
-                warning(
+                warning(  # noqa: LOG015
                     "Global phase is dependent on a symbolic parameter, so cannot "
                     "adjust for phase"
                 )
@@ -284,8 +279,8 @@ class ProjectQBackend(Backend):
         :rtype: complex
         """
         ham = projectq.ops.QubitOperator()
-        for term, coeff in operator._dict.items():
-            if type(coeff) is complex and abs(coeff.imag) > 1e-12:
+        for term, coeff in operator._dict.items():  # noqa: SLF001
+            if type(coeff) is complex and abs(coeff.imag) > 1e-12:  # noqa: PLR2004
                 raise ValueError(
                     "Operator is not Hermitian and cannot be converted to "
                     "`projectq.ops.QubitOperator`."
