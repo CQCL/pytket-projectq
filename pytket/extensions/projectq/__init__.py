@@ -14,6 +14,6 @@
 """Module for conversion between ProjectQ and tket primitives."""
 
 # _metadata.py is copied to the folder after installation.
-from ._metadata import __extension_version__, __extension_name__
+from ._metadata import __extension_name__, __extension_version__
 from .backends import ProjectQBackend
 from .projectq_convert import tk_to_projectq, tketBackendEngine, tketOptimiser
