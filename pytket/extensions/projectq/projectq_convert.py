@@ -133,11 +133,8 @@ def tk_to_projectq(
     Commands on this Qureg.
 
     :param engine: A ProjectQ MainEngine
-    :type engine: MainEngine
     :param qureg: A ProjectQ Qureg in this MainEngine
-    :type qureg: Qureg
     :param circuit: A tket Circuit
-    :type circuit: Circuit
     """
     if not circuit.is_simple:
         raise Exception("Cannot currently convert non-simple circuits to ProjectQ")
@@ -267,13 +264,15 @@ class tketBackendEngine(BasicEngine):
     @property
     def circuit(self) -> Circuit:
         """
+        Returns the tket Circuit accumulated so far by the engine.
+
         :raises NotImplementedError: If the Circuit has no gates, assumes user forgot to
             flush engines.
 
         :return: The tket Circuit from the engine.
         """
         if self._circuit.n_gates == 0:
-            raise Exception("Circuit has no gates. Have you flushed your engine?")
+            raise NotImplementedError("Circuit has no gates. Have you flushed your engine?")
         return self._circuit
 
     def is_available(self, cmd: ProjectQCommand) -> bool:
@@ -281,7 +280,7 @@ class tketBackendEngine(BasicEngine):
         Ask the next engine whether a command is available, i.e.,
         whether it can be executed by the next engine(s).
 
-        :raises LastEngineException: If is_last_engine is True but is_available is not
+        :raises projectq.cengines.LastEngineException: If is_last_engine is True but is_available is not
             implemented.
 
         :param cmd: Command for which to check availability.

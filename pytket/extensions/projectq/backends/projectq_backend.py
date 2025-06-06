@@ -161,7 +161,7 @@ class ProjectQBackend(Backend):
         **kwargs: KwargTypes,
     ) -> list[ResultHandle]:
         """
-        See :py:meth:`pytket.backends.Backend.process_circuits`.
+        See :py:meth:`pytket.backends.backend.Backend.process_circuits`.
         Supported kwargs: `seed`.
         """
         circuits = list(circuits)
@@ -244,14 +244,10 @@ class ProjectQBackend(Backend):
 
         :param state_circuit: Circuit that generates the desired state
             :math:`\\left|\\psi\\right>`.
-        :type state_circuit: Circuit
         :param pauli: Pauli operator
-        :type pauli: QubitPauliString
         :param valid_check: Explicitly check that the circuit satisfies all required
             predicates to run on the backend. Defaults to True
-        :type valid_check: bool, optional
         :return: :math:`\\left<\\psi | P | \\psi \\right>`
-        :rtype: complex
         """
         pauli_tuple = tuple((_default_q_index(q), p.name) for q, p in pauli.map.items())
         return self._expectation_value(
@@ -269,14 +265,10 @@ class ProjectQBackend(Backend):
 
         :param state_circuit: Circuit that generates the desired state
             :math:`\\left|\\psi\\right>`.
-        :type state_circuit: Circuit
         :param operator: Operator :math:`H`. Must be Hermitian.
-        :type operator: QubitPauliOperator
         :param valid_check: Explicitly check that the circuit satisfies all required
             predicates to run on the backend. Defaults to True
-        :type valid_check: bool, optional
         :return: :math:`\\left<\\psi | H | \\psi \\right>`
-        :rtype: complex
         """
         ham = projectq.ops.QubitOperator()
         for term, coeff in operator._dict.items():  # noqa: SLF001
