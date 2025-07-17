@@ -270,7 +270,9 @@ class tketBackendEngine(BasicEngine):
         :return: The tket Circuit from the engine.
         """
         if self._circuit.n_gates == 0:
-            raise NotImplementedError("Circuit has no gates. Have you flushed your engine?")
+            raise NotImplementedError(
+                "Circuit has no gates. Have you flushed your engine?"
+            )
         return self._circuit
 
     def is_available(self, cmd: ProjectQCommand) -> bool:
