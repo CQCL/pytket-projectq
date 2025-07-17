@@ -11,6 +11,5 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Backend for utilising the ProjectQ simulator directly from pytket"""
 
 from .projectq_backend import ProjectQBackend

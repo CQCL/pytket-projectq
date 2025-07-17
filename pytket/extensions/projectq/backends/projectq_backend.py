@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Methods to allow tket circuits to be ran on ProjectQ simulator"""
-
 from collections.abc import Sequence
 from logging import warning
 from typing import (
