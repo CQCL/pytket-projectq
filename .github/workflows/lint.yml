@@ -24,6 +24,10 @@ jobs:
       run: pip install --upgrade pip
     - name: Install formatters and linters
       run: pip install ruff
+    - name: Show diff from ruff check
+      run: |
+        ruff check --fix .
+        git diff
     - name: Run ruff lint
       run: |
         ruff check .
